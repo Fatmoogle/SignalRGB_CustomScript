@@ -1,0 +1,62 @@
+<head>
+    <title>Perlin Clouds</title>
+    <meta description="Perlin noise clouds that allow the user to scale the degree of each color and the scale"/>
+    <meta publisher="Alex Varela" />
+    <meta property="rMultiply" label="Red Cloud" type="number" default="255" min="0" max="255">
+    <meta property="gMultiply" label="Green Cloud" type="number" default="255" min="0" max="255">
+    <meta property="bMultiply" label="Blue Cloud" type="number" default="255" min="0" max="255">
+    <meta property="scale" label="Scale" type="number" default="4" min="2" max="8">
+    <meta property="speed" label="Speed" type="number" default="1" min="1" max="5">
+    <script src="https://unpkg.com/perlin-noise-3d"></script>           <!-- 3D Perlin Noise Link-->
+</head>
+
+<body style="margin: 0; padding: 0;">
+    <canvas id="exCanvas" width="320" height="200"></canvas>
+</body>
+
+<script>
+    console.clear();
+    var c = document.getElementById("exCanvas");
+    var ctx = c.getContext("2d");
+    var width = 320;
+    var height = 200;
+
+    const noise = new perlinNoise3d();          // New instances of Noise3D, returns object
+    const noise2 = new perlinNoise3d();
+    const noise3 = new perlinNoise3d();
+
+    let noiseStep = 1;
+    noise.noiseSeed(20);
+    noise2.noiseSeed(80);
+    noise3.noiseSeed(60);
+
+    let z = 0;
+
+    function update() {
+        scale = Math.floor(scale);
+
+        for(let y = 0; y < height / scale; y++ ) {                  // Nested loop generates a row of pixels (x) for every column (y)
+            for(let x = 0; x < width / scale; x++ ) {
+                let r = noise.get(x / 10, y / 10, z / 10);          // noise.get() returns x, y, and z coordinate 
+                let g = noise2.get(x / 10, y / 10, z / 10);
+                let b = noise3.get(x / 10, y / 10, z / 10);
+
+                r *= r;                                             // Red color value
+                g *= g;                                             // Green color value
+                b *= b;                                             // Blue color value
+                r *= rMultiply;
+                g *= gMultiply;
+                b *= bMultiply;
+
+                ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+                ctx.fillRect( x * scale, y * scale, 1 * scale, 1 * scale );         // Draws one pixel with scaling
+                noiseStep += 0.1;
+            }
+        }
+        z += (speed / 5);                                           // Determines speed of traversing the Z axis
+        window.requestAnimationFrame(update);
+    }
+
+    window.requestAnimationFrame(update);
+
+</script>
