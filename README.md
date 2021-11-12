@@ -9,7 +9,7 @@ SignalRGB_CustomScript
     ## Description
     A custom light script designed using HTML Canvas and the SignalRGB engine. Inspired by 3D Perlin Noise.
   
-    This web application was created with HTML, CSS, HTML Canvas, and the Signal RGB engine. Used custom npm library to generate perlin noise, found here:
+    This application was created with HTML, CSS, HTML Canvas, and the Signal RGB engine. Used custom npm library to generate perlin noise, found here:
 
     https://www.npmjs.com/package/perlin-noise-3d
 
